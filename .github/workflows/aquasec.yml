@@ -2,7 +2,7 @@ name: build
 on:
   push:
     branches:
-      - deploy-saemea 
+      - main
 jobs:
   all-in-one:
     name: Aqua scanner
