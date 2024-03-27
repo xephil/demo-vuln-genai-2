@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat with AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div id="chat-container">
+    <div id="progress-bar" style="display: none; width: 100%; background-color: #ddd;">
+        <div id="progress" style="height: 2px; width: 0%; background-color: #4CAF50;"></div>
+    </div>
+    <div id="chat-box"></div>
+    <textarea id="user-input" placeholder="Type your message here..."></textarea>
+    <button id="send-button" onclick="sendMessage()">Send</button>
+</div>
+<script src="/static/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+flask
+transformers
+torch
+langchain
+langchain_community
+langchain-openai
