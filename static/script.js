@@ -14,7 +14,7 @@ function sendMessage() {
     .then(response => response.json())
     .then(data => {
         // Access the output from data.response.output
-        document.getElementById('chat-box').innerHTML += `<div>You: ${userInput}</div><div>AI: ${data.response}</div>`;
+        document.getElementById('chat-box').innerHTML += `<div>You: ${userInput}</div><div>AI: ${data.response.output}</div>`;
         // Instead of clearing the input box, you might want to keep the question
         // document.getElementById('user-input').value = ''; // To clear input box, uncomment if needed
 

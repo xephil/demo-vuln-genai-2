@@ -4,3 +4,5 @@ torch
 langchain
 langchain_community
 langchain-openai
+langchain_experimental
+langchainhub
