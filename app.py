@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 from io import StringIO
 import sys
-from langchain.agents.tools import Tool
-from langchain.agents import tool, AgentExecutor, ChatOpenAI
+from langchain_openai import ChatOpenAI
+from langchain.agents import tool, AgentExecutor
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 from langchain.agents.format_scratchpad.openai_tools import (
