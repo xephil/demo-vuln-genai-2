@@ -1,8 +1,8 @@
-flask
-transformers
-torch
-langchain
-langchain_community
-langchain-openai
-langchain_experimental
-langchainhub
+flask==3.0.2
+transformers==4.39.3
+torch==2.2.2
+langchain==0.1.14
+langchain_community==0.0.31
+langchain-openai==0.1.1
+langchain_experimental==0.0.56
+langchainhub==0.1.15
