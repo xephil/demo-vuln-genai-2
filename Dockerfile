@@ -5,11 +5,11 @@ WORKDIR /app
 # Update system packages and install any needed dependencies
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends \
-    # If you know specific packages that need to be installed, list them here
-    && rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends && \
+    RUN apt-get install -y libexpat1=2.5.0-1 && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copy the requirements.txt first to leverage Docker cache
+
 COPY requirements.txt /app
 
 # Install packages from requirements.txt,
