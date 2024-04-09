@@ -6,7 +6,7 @@ WORKDIR /app
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends && \
-    RUN apt-get install -y libexpat1=2.5.0-1 && \
+    apt-get install -y libexpat1=2.5.0-1 && \
     rm -rf /var/lib/apt/lists/*
 
 
