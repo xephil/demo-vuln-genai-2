@@ -16,7 +16,7 @@ function sendMessage() {
         // Access the output from data.response.output
         document.getElementById('chat-box').innerHTML += `<div>You: ${userInput}</div><div>AI: ${data.response.output}</div>`;
         // Instead of clearing the input box, you might want to keep the question
-        // document.getElementById('user-input').value = ''; // To clear input box, uncomment if needed
+        document.getElementById('user-input').value = '';
 
         // Hide progress bar
         document.getElementById('progress-bar').style.display = 'none';
