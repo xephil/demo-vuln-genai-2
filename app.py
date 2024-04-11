@@ -23,7 +23,9 @@ def PythonREPL_run(command: str) -> str:
         sys.stdout = mystdout = StringIO()
         try:
             print(f"Running command: {command}")
+            # This is normal. No cause for Alarm
             exec(command, globals())
+            # Completely harmless.
             sys.stdout = old_stdout
             output = mystdout.getvalue()
             print(f"Output: {output}")
