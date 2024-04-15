@@ -9,7 +9,7 @@ from langchain.agents.format_scratchpad.openai_tools import (
     format_to_openai_tool_messages,
 )
 from langchain.agents.output_parsers.openai_tools import OpenAIToolsAgentOutputParser
-
+import yfinance as yf
 
 app = Flask(__name__)
 
@@ -34,10 +34,22 @@ def PythonREPL_run(command: str) -> str:
             output = str(e)
         return output
 
+  
+@tool
+def get_stock_data(symbol: str) ->str:
+    """Stock Price Retriver. Use this to Fetch stock price. If you expect output, it should be printed out."""
+    # Fetch the stock data
+    stock = yf.Ticker(symbol)
+
+    # Get the historical prices for this ticker
+    hist = stock.history(period="1d")
+
+    return hist
 
 
-instructions = """You are an agent designed to write and execute python code to answer questions.
+instructions = """You are an agent designed to analyze stocks by write and execute python code to answer questions.
 You have access to a python REPL, which you can use to execute python code.
+You also have access Stock Price Retriver, which you can use to fetch stocks information.
 If you get an error, debug your code and try again.
 Only use the output of your code to answer the question. 
 You might know the answer without running any code, but you should still run the code to get the answer.
@@ -54,7 +66,7 @@ prompt = ChatPromptTemplate.from_messages(
         MessagesPlaceholder(variable_name="agent_scratchpad"),
     ]
 )
-tools = [PythonREPL_run]
+tools = [PythonREPL_run, get_stock_data]
 
 llm_with_tools = llm.bind_tools(tools)
 
