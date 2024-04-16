@@ -94,7 +94,7 @@ def calculate_rsi(ticker, period='6mo', interval='1d', rsi_period=14):
 
 
 instructions = """You are an agent designed to analyze stocks by write and execute python code to answer questions.
-You have access to a python REPL, which you can use to execute python code.
+You have access to a python REPL, which you can use to execute python code for all purpose.
 You also have access Stock Price Retriver, which you can use to fetch stocks information.
 You also have RSI calulcator you can use directly if the user input ask for it, without the need for the other tools
 If you get an error, debug your code and try again.

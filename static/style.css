@@ -59,7 +59,7 @@
     resize: none; /* Prevents resizing of the textarea */
     box-sizing: border-box;
     margin-top: 10px;
-    height: 150px; /* Fixed height for consistency */
+    height: calc(20%); /* Fixed height for consistency */
 }
 
 /* Send button */
