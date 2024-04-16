@@ -34,17 +34,27 @@ def PythonREPL_run(command: str) -> str:
             output = str(e)
         return output
 
-  
 @tool
-def get_stock_data(symbol: str) ->str:
-    """Stock Price Retriver. Use this to Fetch stock price. If you expect output, it should be printed out."""
-    # Fetch the stock data
-    stock = yf.Ticker(symbol)
+def get_stock_price(ticker, period='1d'):
+    """
+    Retrieves the stock price for a given ticker and period.
 
-    # Get the historical prices for this ticker
-    hist = stock.history(period="1d")
+    Args:
+    ticker (str): The stock symbol to retrieve price for.
+    period (str): The period over which to retrieve stock data. Examples include '1d' (one day), '1mo' (one month), '1y' (one year), etc.
 
-    return hist
+    Returns:
+    float or str: The latest stock price or an error message if data is not available.
+    """
+    stock = yf.Ticker(ticker)
+    try:
+        todays_data = stock.history(period=period)
+        if not todays_data.empty:
+            return todays_data['Close'][-1]
+        else:
+            return "No data available"
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
 
 
 instructions = """You are an agent designed to analyze stocks by write and execute python code to answer questions.
@@ -66,7 +76,7 @@ prompt = ChatPromptTemplate.from_messages(
         MessagesPlaceholder(variable_name="agent_scratchpad"),
     ]
 )
-tools = [PythonREPL_run, get_stock_data]
+tools = [PythonREPL_run, get_stock_price]
 
 llm_with_tools = llm.bind_tools(tools)
 
