@@ -9,8 +9,9 @@
     flex-direction: column;
     padding: 10px;
     background-color: #fff;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Arial', sans-serif; /* Arial font for the chat container */
     position: relative;
+    overflow: hidden; /* Ensures no internal element overflows */
     margin: 20px auto;
 }
 
@@ -39,24 +40,26 @@
 #chat-box div.user-message {
     background-color: #007bff;
     align-self: flex-end;
+    color: #fff; /* Ensures text is visible against the background */
 }
 
 /* Styling for messages from AI */
 #chat-box div.ai-message {
     background-color: #333;
     align-self: flex-start;
+    color: #fff; /* Ensures text is visible against the background */
 }
 
 /* User input area */
 #user-input {
-    width: calc(100% - 22px);
+    width: calc(100% - 22px); /* Calculates width to fit within padding */
     padding: 10px;
     border-radius: 20px;
     border: 1px solid #ccc;
-    resize: none;
+    resize: none; /* Prevents resizing of the textarea */
     box-sizing: border-box;
     margin-top: 10px;
-    height: 150px;
+    height: calc(20%); /* Fixed height for consistency */
 }
 
 /* Send button */
@@ -65,18 +68,18 @@
     padding: 10px;
     margin-top: 10px;
     background-color: #007bff;
-    color: #000;
+    color: #fff; /* Changed text color for better visibility */
     border: none;
     border-radius: 20px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
 
 #send-button:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* Darker blue on hover */
 }
 
-/* Additional styles for scrollbars */
+/* Scrollbar styles for chat box */
 #chat-box::-webkit-scrollbar {
     width: 5px;
 }
@@ -86,6 +89,7 @@
     border-radius: 5px;
 }
 
+/* Progress bar styles */
 #progress-bar {
     width: 100%;
     background-color: #ddd;
@@ -96,5 +100,5 @@
     height: 2px;
     width: 0%;
     background-color: #4CAF50;
-    transition: width 2s;
+    transition: width 2s; /* Animation for progress width change */
 }
