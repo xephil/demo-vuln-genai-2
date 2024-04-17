@@ -2,11 +2,12 @@ name: build
 on:
   push:
     branches:
-      - main
+      - deploy-cloudhub
 jobs:
   all-in-one:
     name: Aqua scanner
     runs-on: ubuntu-latest
+    environment: cloudhub
     env:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
       ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
@@ -15,9 +16,6 @@ jobs:
       AQUA_KEY: ${{ secrets.AQUA_KEY }}
       AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
       TRIVY_RUN_AS_PLUGIN: 'aqua'
-      EKS_CLUSTER_NAME: ${{ secrets.EKS_CLUSTER_NAME }}
-      EKS_ARN: ${{ secrets.EKS_ARN }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
       
     permissions:
         id-token: write
