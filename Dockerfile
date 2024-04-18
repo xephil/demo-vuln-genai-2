@@ -1,6 +1,8 @@
 #FROM python:slim
 FROM cgr.dev/chainguard/python:latest-dev
 
+USER root
+
 WORKDIR /app
 
 COPY requirements.txt /app
@@ -13,7 +15,5 @@ RUN pip install --no-cache-dir --upgrade pip && \
 
 # Make sure the entire project directory is copied
 COPY . /app
-
-USER root
 
 CMD ["app.py"]
