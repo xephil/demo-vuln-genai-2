@@ -1,1 +1,4 @@
 /temp/*
+.envrc
+.DS_Store
+venv/
