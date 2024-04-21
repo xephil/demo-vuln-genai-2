@@ -1,50 +1,48 @@
 function sendMessage() {
-    const userInput = document.getElementById('user-input').value;
-    
-    // Check if userInput is not empty to avoid sending empty messages
-    if (!userInput.trim()) {
-        return; // Prevents sending empty messages
-    }
+  const userInput = document.getElementById("user-input").value;
 
-    // Append user input to chat box immediately
-    const chatBox = document.getElementById('chat-box');
-    const userDiv = document.createElement('div');
-    userDiv.innerHTML = `You: ${userInput}`;
-    chatBox.appendChild(userDiv);
+  // Disable the send button
+  document.getElementById("send-button").disabled = true;
 
-    // Show progress bar
-    document.getElementById('progress-bar').style.display = 'block';
-    document.getElementById('progress').style.width = '100%'; // Simulate a progress completion
-    
-    fetch('/chat', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({message: userInput}),
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Append AI response to chat box
-        aiDiv = document.createElement('div');
-        aiDiv.innerHTML = `AI: ${data.response.output}`;
-        chatBox.appendChild(aiDiv);
+  // Show progress bar
+  document.getElementById("progress-bar").style.display = "block";
+  document.getElementById("progress").style.width = "100%"; // Simulate a progress completion
 
-        // Clear the input box
-        document.getElementById('user-input').value = '';
+  document.getElementById(
+    "chat-box"
+  ).innerHTML += `<div class="message sent"> ${userInput}</div>`;
 
-        // Scroll to the latest message
-        aiDiv.scrollIntoView({ behavior: 'smooth' });
+  // Clear the input box
+  document.getElementById("user-input").value = "";
+  fetch("/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ message: userInput }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // Access the output from data.response.output
+      document.getElementById(
+        "chat-box"
+      ).innerHTML += `<div class="message received">${data.response.output}</div>`;
 
-        // Hide progress bar
-        document.getElementById('progress-bar').style.display = 'none';
-        document.getElementById('progress').style.width = '0%'; // Reset progress
+      // Enable the send button
+      document.getElementById("send-button").disabled = false;
+
+      // Hide progress bar
+      document.getElementById("progress-bar").style.display = "none";
+      document.getElementById("progress").style.width = "0%"; // Reset progress
     })
     .catch((error) => {
-        console.error('Error:', error);
+      console.error("Error:", error);
 
-        // Hide progress bar in case of error as well
-        document.getElementById('progress-bar').style.display = 'none';
-        document.getElementById('progress').style.width = '0%'; // Reset progress
+      // Enable the send button
+      document.getElementById("send-button").disabled = false;
+
+      // Hide progress bar in case of error as well
+      document.getElementById("progress-bar").style.display = "none";
+      document.getElementById("progress").style.width = "0%"; // Reset progress
     });
 }
