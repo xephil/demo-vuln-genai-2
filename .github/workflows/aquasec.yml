@@ -11,7 +11,7 @@ jobs:
     env:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
       ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
-      ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+      ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_TMP }}
       IMAGE_TAG: ${{ github.sha }}
       AQUA_KEY: ${{ secrets.AQUA_KEY }}
       AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
@@ -40,7 +40,7 @@ jobs:
           # To enable npm/dotnet non-lock file scanning, add: --package-json / --dotnet-proj  
       - name: Build image locally
         run: |
-          docker build -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
+          docker build -t "$ECR_REGISTRY/$ECR_REPOSITORY_TMP:$IMAGE_TAG" .
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -61,12 +61,12 @@ jobs:
               --access-token "${{ secrets.GITHUB_TOKEN }}" \
               --aqua-key "${{ secrets.AQUA_KEY }}" \
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
-              --artifact-path "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+              --artifact-path "$ECR_REGISTRY/$ECR_REPOSITORY_TMP:$IMAGE_TAG"
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       - name: Tag and push image to Amazon ECR (+latest)
         run: |
-          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY_TMP:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY_TMP:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_TMP:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_TMP:latest
