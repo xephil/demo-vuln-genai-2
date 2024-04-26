@@ -24,9 +24,9 @@ function sendMessage() {
     .then((response) => response.json())
     .then((data) => {
       // Access the output from data.response.output
-      document.getElementById(
-        "chat-box"
-      ).innerHTML += `<div class="message received">${data.response.output}</div>`;
+      let chatbox = document.getElementById("chat-box")
+      chatbox.innerHTML += `<div class="message received">${data.response.output}</div>`;
+      chatbox.scrollTop = chatbox.scrollHeight;
 
       // Enable the send button
       document.getElementById("send-button").disabled = false;

@@ -5,3 +5,6 @@ __pycache__/
 .dockerignore
 Dockerfile
 README.md
+venv/
+workflow/
+temp/
