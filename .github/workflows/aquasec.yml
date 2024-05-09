@@ -24,7 +24,7 @@ jobs:
       BUILD_NAME: ${{ github.repository }}
       AQUA_TOKEN: ${{ secrets.AQUA_TOKEN }} # Aqua Scanner authentication
       AQUA_HOST: ${{ secrets.AQUA_HOST }} # Aqua Scanner authentication
-      AQUA_USERNAME: ${{ secrets.AQUA_USERNAME }} # Aqua Registry
+      AQUA_USER: ${{ secrets.AQUA_USER }} # Aqua Registry
       AQUA_PASSWORD: ${{ secrets.AQUA_PASSWORD }} # Aqua Registry
       
     permissions:
@@ -54,7 +54,7 @@ jobs:
       - name: Login to Aqua Registry
         uses: docker/login-action@v3
         with:
-          username: $AQUA_USERNAME
+          username: $AQUA_USER
           password: $AQUA_PASSWORD
           registry: registry.aquasec.com 
       - name: Run Aqua Image Scanner
