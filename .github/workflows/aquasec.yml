@@ -51,14 +51,15 @@ jobs:
       - name: Build image locally
         run: |
           docker build -t "$DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG" .
-      - name: Login to Aqua Registry
-        uses: docker/login-action@v3
-        with:
-          username: $AQUA_USER
-          password: $AQUA_PASSWORD
-          registry: registry.aquasec.com 
+      # - name: Login to Aqua Registry
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: $AQUA_USER
+      #     password: $AQUA_PASSWORD
+      #     registry: registry.aquasec.com 
       - name: Run Aqua Image Scanner
         run: |
+          docker login -u $AQUA_USER -p $AQUA_PASSWORD
           docker pull registry.aquasec.com/scanner:2404.30.6 
           docker run --rm -v $GITHUB_WORKSPACE:/tmp -v /var/run/docker.sock:/var/run/docker.sock -e BUILD_NUMBER=$BUILD_NUMBER -e BUILD_JOB_NAME=$BUILD_NAME registry.aquasec.com/scanner:2404.30.6 scan -w /tmp --host $AQUA_HOST --token $AQUA_TOKEN --show-negligible --local $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG --htmlfile /tmp/out.html --jsonfile /tmp/out.json > /dev/null
       - name: Manifest Generation
