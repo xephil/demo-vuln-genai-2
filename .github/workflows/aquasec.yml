@@ -51,12 +51,6 @@ jobs:
       - name: Build image locally
         run: |
           docker build -t "$DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG" .
-      # - name: Login to Aqua Registry
-      #   uses: docker/login-action@v3
-      #   with:
-      #     username: $AQUA_USER
-      #     password: $AQUA_PASSWORD
-      #     registry: registry.aquasec.com 
       - name: Run Aqua Image Scanner
         run: |
           docker login registry.aquasec.com -u $AQUA_USER -p $AQUA_PASSWORD
