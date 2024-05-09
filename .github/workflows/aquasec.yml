@@ -59,7 +59,6 @@ jobs:
           registry: https://registry.aquasec.com 
       - name: Run Aqua Image Scanner
         run: |
-          docker login registry.aquasec.com -u $AQUA_USER -p $AQUA_PASSWORD
           docker pull registry.aquasec.com/scanner:2404.30.6 
           docker run --rm -v $GITHUB_WORKSPACE:/tmp -v /var/run/docker.sock:/var/run/docker.sock -e BUILD_NUMBER=$BUILD_NUMBER -e BUILD_JOB_NAME=$BUILD_NAME registry.aquasec.com/scanner:2404.30.6 scan -w /tmp --host $AQUA_HOST --token $AQUA_TOKEN --show-negligible --local $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG --htmlfile /tmp/out.html --jsonfile /tmp/out.json > /dev/null
       - name: Manifest Generation
