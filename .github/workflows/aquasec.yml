@@ -55,7 +55,7 @@ jobs:
         run: |
           docker login registry.aquasec.com -u $AQUA_USER -p $AQUA_PASSWORD
           docker pull registry.aquasec.com/scanner:2404.30.6 
-          docker run --rm -v $GITHUB_WORKSPACE:/tmp -v /var/run/docker.sock:/var/run/docker.sock -e BUILD_NUMBER=$BUILD_NUMBER -e BUILD_JOB_NAME=$BUILD_NAME registry.aquasec.com/scanner:2404.30.6 scan -w /tmp --host $AQUA_HOST --token $AQUA_TOKEN --show-negligible --local $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG --htmlfile /tmp/out.html --jsonfile /tmp/out.json > /dev/null
+          docker run --rm -v $GITHUB_WORKSPACE:/tmp -v /var/run/docker.sock:/var/run/docker.sock -e BUILD_NUMBER=$BUILD_NUMBER -e BUILD_JOB_NAME=$BUILD_NAME registry.aquasec.com/scanner:2404.30.6 scan -w /tmp --host $AQUA_HOST --token $AQUA_TOKEN --show-negligible --local $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG --register-compliant --registry "Docker Hub" --htmlfile /tmp/out.html --jsonfile /tmp/out.json > /dev/null
       - name: Manifest Generation
         run: |
           curl -sLo install.sh download.codesec.aquasec.com/billy/install.sh
