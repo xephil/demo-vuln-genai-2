@@ -48,7 +48,6 @@ jobs:
           # To enable npm/dotnet non-lock file scanning, add: --package-json / --dotnet-proj  
       - name: Build image locally
         run: |
-          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker build -t "$DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG" .
       - name: Run Aqua Image Scanner
         run: |
@@ -71,8 +70,10 @@ jobs:
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
               --artifact-path "$DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG"
       - name: Login to Docker
-        run: |
-          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        uses: docker/login-action@v3
+        with:
+          username: $DOCKER_USERNAME
+          password: $DOCKER_PASSWORD
       - name: Tag and push image to Docker (+latest)
         run: |
           docker tag $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG $DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest
