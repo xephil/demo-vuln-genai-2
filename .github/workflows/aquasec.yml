@@ -17,6 +17,13 @@ jobs:
       AQUA_KEY: ${{ secrets.AQUA_KEY }}
       AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
       TRIVY_RUN_AS_PLUGIN: 'aqua'
+      GITHUB_TOKEN: ${{ github.token }}
+      AQUA_URL: https://api.asia-1.supply-chain.cloud.aquasec.com
+      CSPM_URL: https://asia-1.api.cloudsploit.com
+      BUILD_NUMBER: ${{ github.run_id }}
+      BUILD_NAME: ${{ github.repository }}
+      AQUA_TOKEN: ${{ secrets.AQUA_TOKEN }} # Aqua Scanner authentication
+      AQUA_HOST: ${{ secrets.AQUA_HOST }} # Aqua Scanner authentication
       
     permissions:
         id-token: write
@@ -32,7 +39,7 @@ jobs:
           remove-haskell: 'true'
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Run Aqua scanner
+      - name: Run Aqua Code Scanner
         uses: docker://aquasec/aqua-scanner
         with:
           args: trivy -d fs --scanners config,vuln,secret . --sast --reachability
@@ -43,6 +50,11 @@ jobs:
         run: |
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker build -t "$DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG" .
+      - name: Run Aqua Image Scanner
+        run: |
+          docker login registry.aquasec.com -u $AQUA_USER -p $AQUA_PASSWORD
+          docker pull registry.aquasec.com/scanner:2404.30.6 
+          docker run --rm -v $GITHUB_WORKSPACE:/tmp -v /var/run/docker.sock:/var/run/docker.sock -e BUILD_NUMBER=$BUILD_NUMBER -e BUILD_JOB_NAME=$BUILD_NAME registry.aquasec.com/scanner:2404.30.6 scan -w /tmp --host $AQUA_HOST --token $AQUA_TOKEN --show-negligible --local $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG --htmlfile /tmp/out.html --jsonfile /tmp/out.json > /dev/null
       - name: Manifest Generation
         run: |
           curl -sLo install.sh download.codesec.aquasec.com/billy/install.sh
