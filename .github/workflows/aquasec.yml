@@ -56,7 +56,7 @@ jobs:
         with:
           username: $AQUA_USERNAME
           password: $AQUA_PASSWORD
-          registry: https://registry.aquasec.com 
+          registry: registry.aquasec.com 
       - name: Run Aqua Image Scanner
         run: |
           docker pull registry.aquasec.com/scanner:2404.30.6 
