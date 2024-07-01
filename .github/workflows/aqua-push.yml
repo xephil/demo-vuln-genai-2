@@ -41,7 +41,6 @@ jobs:
       #     remove-haskell: 'true'
       - name: Checkout code
         uses: actions/checkout@v2
-
         
       - name: Run Aqua Code Scanner
         uses: docker://aquasec/aqua-scanner
@@ -51,19 +50,22 @@ jobs:
           # To enable SAST scanning, add: --sast
           # To enable npm/dotnet non-lock file scanning, add: --package-json / --dotnet-proj  
 
-          
       - name: Build image locally
         run: |
           docker build -t "$DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG" .
 
-          
       - name: Run Aqua Image Scanner
         run: |
           docker login registry.aquasec.com -u $AQUA_USER -p $AQUA_PASSWORD
           docker pull registry.aquasec.com/scanner:2406.10.19
           docker run --rm -v $GITHUB_WORKSPACE:/tmp -v /var/run/docker.sock:/var/run/docker.sock -e BUILD_NUMBER=$BUILD_NUMBER -e BUILD_JOB_NAME=$BUILD_NAME registry.aquasec.com/scanner:2406.10.19 scan -w /tmp --host $AQUA_HOST --token $AQUA_TOKEN --show-negligible --local $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG --register-compliant --registry "Docker Hub" --htmlfile /tmp/out.html --jsonfile /tmp/out.json > /dev/null
 
-          
+      - name: Upload Aqua Image Scanner Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: aqua-artifact
+          path: out.*
+ 
       - name: Manifest Generation
         run: |
           export BILLY_SERVER=https://billy.asia-1.codesec.aquasec.com
@@ -81,11 +83,13 @@ jobs:
             --aqua-secret "${{ secrets.AQUA_SECRET }}" \
             --cspm-url https://asia-1.api.cloudsploit.com \
             --artifact-path "$DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG"
-
-            
+       
       - name: Tag and push image to Docker Hub (+latest)
         run: |
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker tag $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG $DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest
           docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG
           docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest
+
+          
+      
