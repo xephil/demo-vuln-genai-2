@@ -1,5 +1,6 @@
 #FROM python:slim
-FROM cgr.dev/chainguard/python:latest-dev
+# FROM cgr.dev/chainguard/python:latest-dev
+FROM python:3.10.12-slim
 
 USER root
 
