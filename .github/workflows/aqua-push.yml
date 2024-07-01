@@ -31,14 +31,14 @@ jobs:
         id-token: write
     
     steps:
-      - name: Maximize build space
-        uses: easimon/maximize-build-space@v10
-        with:
-          root-reserve-mb: 32768 # The Go cache (`~/.cache/go-build` and `~/go/pkg`) requires a lot of storage space.
-          remove-android: 'true'
-          remove-docker-images: 'true'
-          remove-dotnet: 'true'
-          remove-haskell: 'true'
+      # - name: Maximize build space
+      #   uses: easimon/maximize-build-space@v10
+      #   with:
+      #     root-reserve-mb: 32768 # The Go cache (`~/.cache/go-build` and `~/go/pkg`) requires a lot of storage space.
+      #     remove-android: 'true'
+      #     remove-docker-images: 'true'
+      #     remove-dotnet: 'true'
+      #     remove-haskell: 'true'
       - name: Checkout code
         uses: actions/checkout@v4
 
