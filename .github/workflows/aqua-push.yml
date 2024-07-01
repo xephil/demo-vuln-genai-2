@@ -40,7 +40,7 @@ jobs:
       #     remove-dotnet: 'true'
       #     remove-haskell: 'true'
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
         
       - name: Run Aqua Code Scanner
