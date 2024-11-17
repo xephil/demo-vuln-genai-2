@@ -21,5 +21,3 @@ RUN apk update && \
 COPY . /app
 
 CMD ["app.py"]
-
-#test
