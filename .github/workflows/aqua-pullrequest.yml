@@ -23,4 +23,6 @@ jobs:
           AQUA_URL: https://api.asia-1.supply-chain.cloud.aquasec.com
           CSPM_URL: https://asia-1.api.cloudsploit.com
           TRIVY_RUN_AS_PLUGIN: 'aqua'
+          TRIVY_USERNAME: ${{ secrets.AQUA_USER }}
+          TRIVY_PASSWORD: ${{ secrets.AQUA_PASSWORD }}
           # For http/https proxy configuration add env vars: HTTP_PROXY/HTTPS_PROXY, CA-CRET (path to CA certificate)
