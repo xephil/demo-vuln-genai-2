@@ -26,6 +26,11 @@ jobs:
       AQUA_HOST: ${{ secrets.AQUA_HOST }} # Aqua Scanner authentication
       AQUA_USER: ${{ secrets.AQUA_USER }} # Aqua Registry
       AQUA_PASSWORD: ${{ secrets.AQUA_PASSWORD }} # Aqua Registry
+      TRIVY_USERNAME: ${{ secrets.AQUA_USER }}
+      TRIVY_PASSWORD: ${{ secrets.AQUA_PASSWORD }}
+      TRIVY_DB_REPOSITORY: registry.aquasec.com/trivy-db:2
+      TRIVY_JAVA_DB_REPOSITORY: registry.aquasec.com/trivy-java-db:1
+      TRIVY_CHECKS_BUNDLE_REPOSITORY: registry.aquasec.com/trivy-checks:1
       
     permissions:
         id-token: write
